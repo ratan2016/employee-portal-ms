@@ -5,6 +5,7 @@ import com.portal.employeeportalms.entity.Employee;
 
 import java.util.List;
 
+
 public interface EmployeeTransformer {
 
     Employee transform(EmployeeDTO employeeDTO);

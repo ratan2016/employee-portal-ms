@@ -2,18 +2,17 @@ package com.portal.employeeportalms.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.sql.Date;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @Entity
 @Table(name="EMPLOYEE")
-public class Employee {
+public class Employee implements Serializable {
     @Id
     @Column(name="EMPLOYEE_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="FIRST_NAME")
@@ -26,9 +25,13 @@ public class Employee {
     private String gender;
 
     @Column(name="DOB")
+    @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
-    @Column(name="DEPARTMENT")
-    private String department;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "EMPLOYEE_DEPARTMENT",
+            joinColumns = { @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "EMPLOYEE_ID") },
+            inverseJoinColumns = { @JoinColumn(name = "DEPT_ID", referencedColumnName = "DEPT_ID") })
+    private Department department;
 
 }
